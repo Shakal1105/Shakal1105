@@ -1,0 +1,94 @@
+from tkinter import *
+import math
+from tkinter import messagebox
+
+def Dis(a,b,c):
+    Dis = b ** 2 - 4 * a * c
+    try:
+        if Dis > 0:
+            x1 = (-b + math.sqrt(Dis)) / (2 * a)
+            x2 = (-b - math.sqrt(Dis)) / (2 * a)
+            text = "The discriminant is: %s \n X1 is: %s \n X2 is: %s \n" % (Dis, x1, x2)
+        elif Dis == 0:
+            x = -b / 2 * a
+            text = "The discriminant is: %s \n X is: %s" % (Dis, x)
+        else:
+            text = "Not Found"
+    except AssertionError:
+        messagebox.showerror('Error', 'AssertError')
+    except ZeroDivisionError:
+        messagebox.showerror('Error', 'on 0 not division')
+    except SyntaxError:
+        messagebox.showinfo('Info', 'programm is not full, maybe some break')
+    return text
+
+
+def inserter(value):
+    output.delete("0.0","end")
+    output.insert("0.0",value)
+
+def clear(cleen):
+    caller = cleen.widget
+    caller.delete("0", "end")
+
+
+def abc_typer():
+    try:
+        # make sure that we entered correct values
+        a_val = float(a.get())
+        b_val = float(b.get())
+        c_val = float(c.get())
+        inserter(Dis(a_val, b_val, c_val))
+    except SyntaxError:
+        messagebox.showerror('Error', 'programm is not full, maybe some break')
+    except TypeError:
+        messagebox.showerror('Error', 'not correct type')
+    except ValueError:
+        messagebox.showwarning('Warn', 'Need 3 numbers')
+        # llr=Tk()
+        # llr.title("Error")
+        # llr.geometry("100x80")
+        # llr.resizable(width=False, height=False)
+        # fr = Frame(llr)
+        # fr.grid(row=3, column=5)
+        # button = Button(fr, text="OK", command=llr.destroy)
+        # button.grid(row=3, column=0, padx=(11,0))
+        # ll=Label(fr, text="Need 3 numbers", fg='darkred')
+        # ll.grid(row=1, column=0)
+        # llk = Label(fr, text="excample: 1 2 3", fg='#990066')
+        # llk.grid(row=2, column=0)
+        # llr.mainloop()
+    except UnboundLocalError:
+        pass
+
+
+
+calc = Tk()
+calc.title("Quadratic calculator")
+calc.maxsize(320, 240)
+calc.resizable(width=False, height=False)
+
+frame = Frame(calc, bg='yellow')
+frame.grid()
+
+a = Entry(frame, width=5, bg='#281213', fg='white')
+a.grid(row=1,column=1)
+a.bind("<FocusIn>", clear)
+a_lab = Label(frame, text="x**2 +", bg='black', fg='white').grid(row=1,column=2)
+
+b = Entry(frame, width=5, bg='#281213', fg='white')
+b.bind("<FocusIn>", clear)
+b.grid(row=1,column=3)
+b_lab = Label(frame, text="x +", bg='black', fg='white').grid(row=1, column=4)
+
+c = Entry(frame, width=5, bg='#281213', fg='white')
+c.bind("<FocusIn>", clear)
+c.grid(row=1, column=5)
+c_lab = Label(frame, text="= 0", bg='black', fg='white').grid(row=1, column=6)
+
+count_button = Button(frame, text="Solve", bg='#003153', fg='red', command=abc_typer).grid(row=1, column=7, padx=(11,0))
+
+output = Text(frame, bg="#990066", font="Arial 11", width=40, height=6)
+output.grid(row=2, columnspan=8)
+
+calc.mainloop()
